@@ -588,9 +588,8 @@ document.getElementById('ranking-btn').addEventListener('click', function() {
   area.style.display = 'block';
   this.textContent = '🏆 Close Leaderboard';
 });
- // ⚠️ 로딩 완료 이벤트
 window.addEventListener('load', function() {
-  safeGamePix(() => GamePix.sdk.gameLoadingFinished());
+  safeGamePix(() => GamePix.loaded());
 });
 </script>
 </body>
