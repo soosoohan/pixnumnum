@@ -420,14 +420,15 @@ function applyFruitEffect(r, c, effectSet) {
     if (nr<0||nr>=ROWS||nc<0||nc>=COLS) continue;
     if (board[nr][nc].value > 0) {
       const oldVal = board[nr][nc].value;
-      if (oldVal >= 2048) continue;
-      const newVal = Math.min(oldVal * mult, 2048);
-      if (newVal === oldVal) continue;
-      score += newVal - oldVal;
-      document.getElementById('score').textContent = score;
-      board[nr][nc] = { value: newVal };
-      effectSet.add(`${nr}-${nc}`);
-      if (newVal >= 256) fireConfetti();
+    if (oldVal >= 2048) continue;
+const newVal = Math.min(oldVal * mult, 2048);
+if (newVal === oldVal) continue;
+score += newVal - oldVal;
+document.getElementById('score').textContent = score;
+safeGamePix(() => GamePix.updateScore(score));   // ← 이 줄 추가
+board[nr][nc] = { value: newVal };
+effectSet.add(`${nr}-${nc}`);
+if (newVal >= 256) fireConfetti();
     }
   }
 }
