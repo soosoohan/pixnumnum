@@ -513,8 +513,7 @@ async function checkGameOver() {
   document.getElementById('save-score-btn').disabled = false;
   document.getElementById('save-score-btn').textContent = '💾 Save Score';
   document.getElementById('overlay').classList.add('show');
-  GamePix.sdk.gameplayStop(); //게임픽스
-  GamePix.sdk.sendScore(score); //게임픽스
+  safeGamePix(() => GamePix.updateScore(score));
 
 }
 
