@@ -258,6 +258,11 @@ document.getElementById('player-id').textContent = playerId;
 
 let board, queue, selectedCol, score, gameOver, isMobile;
 
+ // ⚠️ safeGamePix 헬퍼 추가
+function safeGamePix(fn) {
+  try { if (window.GamePix && window.GamePix.sdk) fn(); } catch(e) {}
+}
+
 function startGame() {
   document.getElementById('start-screen').style.display = 'none';
   init();
