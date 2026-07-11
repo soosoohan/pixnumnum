@@ -258,7 +258,12 @@ document.getElementById('player-id').textContent = playerId;
 
 let board, queue, selectedCol, score, gameOver, isMobile;
 
-function startGame() {
+// ⚠️ safeGamePix 헬퍼 추가
+function safeGamePix(fn) {
+  try { if (window.GamePix && window.GamePix.sdk) fn(); } catch(e) {}
+}
+
+ function startGame() {
  document.getElementById('start-screen').style.display = 'none';
  init();
  GamePix.sdk.gameStarted(); //게임 픽스 관련
