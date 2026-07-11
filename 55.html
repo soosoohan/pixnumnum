@@ -266,7 +266,6 @@ function safeGamePix(fn) {
 function startGame() {
  document.getElementById('start-screen').style.display = 'none';
  init();
- safeGamePix(() => GamePix.sdk.gameStarted()); // ⚠️ 변경
 }
 window.startGame = startGame;
 
