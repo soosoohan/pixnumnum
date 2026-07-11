@@ -456,13 +456,14 @@ function runMergeLoop(newR, newC, mergeSet) {
         const nr=r+dr, nc=c+dc;
         if (nr<0||nr>=ROWS||nc<0||nc>=COLS) continue;
         if (board[nr][nc].value===val) {
-          const newVal = val*2;
-          score += newVal;
-          document.getElementById('score').textContent = score;
-          board[nr][nc] = {value:newVal}; board[r][c] = {value:0};
-          mergeSet.add(`${nr}-${nc}`); next.push({r:nr,c:nc});
-          if (newVal>=256) fireConfetti();
-          break;
+  const newVal = val*2;
+  score += newVal;
+  document.getElementById('score').textContent = score;
+  safeGamePix(() => GamePix.updateScore(score));   // ← 이 줄 추가
+  board[nr][nc] = {value:newVal}; board[r][c] = {value:0};
+  mergeSet.add(`${nr}-${nc}`); next.push({r:nr,c:nc});
+  if (newVal>=256) fireConfetti();
+  break;
         }
       }
     }
