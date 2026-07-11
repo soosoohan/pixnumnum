@@ -282,6 +282,10 @@ function init() {
   document.getElementById('pc-hint').style.display  = isMobile ? 'none'  : 'block';
   buildGrid(); buildColButtons(); updateQueueUI(); renderBoard(); highlightCol();
 }
+// init() 밖, 스크립트 최상단이나 최하단에 별도로:
+window.addEventListener('load', function() {
+  GamePix.sdk.gameLoadingFinished();
+});
 
 function randomCard() {
   if (Math.random() < 0.05) {
