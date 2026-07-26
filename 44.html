@@ -40,7 +40,7 @@
   }
 
   .back-button {
-    position: absolute; top: 20px; left: 20px;
+    position: absolute; top: 20px; right: 20px;
     padding: 8px 10px; font-size: 2em; font-weight: bold;
     background-color: #1a1a2e; color: #CFF9FF;
     border-radius: 12px; border: none; cursor: pointer;
@@ -104,6 +104,20 @@
     font-weight: bold; cursor: pointer; display: none;
   }
   #pc-hint { margin-top: 12px; font-size: 0.8rem; color: #666; text-align: center; line-height: 1.6; }
+#ranking-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.75); align-items: center;
+  justify-content: center; flex-direction: column; gap: 16px; z-index: 150;
+}
+#ranking-overlay.show { display: flex; }
+#ranking-overlay .ranking-box {
+  background:#1a1a2e; padding:20px 24px; border-radius:14px;
+  width:90%; max-width:320px; max-height:70vh; overflow-y:auto;
+}
+#ranking-close-btn {
+  padding:10px 28px; border-radius:10px; border:none;
+  background:#2a2a4a; color:#f0c040; font-size:0.95rem; cursor:pointer;
+}
 
   #ranking-area { margin-top: 24px; width: 100%; max-width: 320px; }
   #ranking-area h3 { color: #f0c040; font-size: 1rem; margin-bottom: 10px; text-align: center; }
@@ -210,10 +224,6 @@
   <div id="pc-hint">← → Select · Enter / Space Drop</div>
   <button id="ranking-btn" style="margin-top:14px; padding:10px 28px; border-radius:10px; border:none; background:#2a2a4a; color:#f0c040; font-size:0.95rem; cursor:pointer;">🏆 Leaderboard</button>
 
-  <div id="ranking-area" style="display:none;">
-    <h3>🏆 Top 10 · NumNum 4×4 (this device)</h3>
-    <div id="ranking-list"></div>
-  </div>
 </div>
 
 <div id="overlay">
@@ -223,6 +233,13 @@
     <button id="save-score-btn" style="padding:12px 28px; border-radius:10px; border:none; background:#a8e063; color:#1a1a2e; font-size:1rem; font-weight:bold; cursor:pointer;">💾 Save score</button>
     <button id="restart-btn">Try again</button>
   </div>
+  <div id="ranking-overlay">
+  <div class="ranking-box">
+    <h3 style="color:#f0c040;text-align:center;margin-bottom:12px;">🏆 Top 10 · NumNum 4×4 (this device)</h3>
+    <div id="ranking-list"></div>
+  </div>
+  <button id="ranking-close-btn">Close</button>
+</div>
 </div>
 
 <script>
