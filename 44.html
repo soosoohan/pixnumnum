@@ -40,14 +40,26 @@
   }
 
   .back-button {
-    position: absolute; top: 20px; right: 20px;
-    padding: 8px 10px; font-size: 2em; font-weight: bold;
-    background-color: #1a1a2e; color: #CFF9FF;
-    border-radius: 12px; border: none; cursor: pointer;
-    transition: all 0.3s ease; z-index: 100;
-  }
+  position: absolute; top: 20px; right: 20px;
+  padding: 8px 16px; font-size: 1rem; font-weight: bold;
+  background-color: #1a1a2e; color: #CFF9FF;
+  border-radius: 12px; border: none; cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.3s ease; z-index: 100;
+}
+
   .back-button:hover { background-color: #1baf8f; color: #fff; }
   h1 { font-size: 2rem; margin-bottom: 6px; letter-spacing: 2px; color: #f0c040; }
+ #status-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 288px;
+  margin-bottom: 12px;
+  font-size: 0.85rem;
+  padding-left: 60px;
+}
   #player-id { font-size: 0.8rem; color: #666; margin-bottom: 10px; letter-spacing: 1px; }
   #score-area { margin-bottom: 14px; font-size: 1.1rem; color: #ccc; }
   #score-area span { color: #f0c040; font-weight: bold; font-size: 1.3rem; }
@@ -106,7 +118,7 @@
   #pc-hint { margin-top: 12px; font-size: 0.8rem; color: #666; text-align: center; line-height: 1.6; }
 #ranking-overlay {
   display: none; position: fixed; inset: 0;
-  background: rgba(0,0,0,0.75); align-items: center;
+  background: rgba(0,0,0,0.20); align-items: center;
   justify-content: center; flex-direction: column; gap: 16px; z-index: 150;
 }
 #ranking-overlay.show { display: flex; }
@@ -175,7 +187,7 @@
 <body>
 
 <div id="start-screen">
-  <button class="back-button" onclick="location.href='index.html'">←</button>
+  <button class="back-button" onclick="location.href='index.html'">Menu</button>
   <h1>NumNum</h1>
   <div style="font-size:2rem;">4×4</div>
   <p class="subtitle">Drop fruits to multiply numbers - 2x, 4x, 8x!</p>
@@ -190,19 +202,15 @@
   <button class="start-btn" onclick="startGame()">Start</button>
   <footer><p>© 2026 Han Soosoo. All rights reserved.</p></footer>
 </div>
-
+<button class="back-button" onclick="location.href='index.html'">Menu</button>
+  
 <div id="game-wrapper">
-  <button class="back-button" onclick="location.href='index.html'">←</button>
   <h1>🍎 NumNum</h1>
-  <div id="player-id"></div>
-  <div id="score-area">Score: <span id="score">0</span></div>
-
-  <div id="fruit-legend">
-    <div class="fruit-item"><div class="fruit-badge">🍎</div><span>×2</span></div>
-    <div class="fruit-item"><div class="fruit-badge">🍒</div><span>×4</span></div>
-    <div class="fruit-item"><div class="fruit-badge">🍇</div><span>×8</span></div>
-  </div>
-
+<div id="status-bar">
+  <span id="player-id"></span>
+  <span id="score-area">Score: <span id="score">0</span></span>
+</div>
+  
   <div id="queue-area">
     <div class="queue-slot">
       <div class="queue-label">Next card</div>
@@ -233,15 +241,15 @@
     <button id="save-score-btn" style="padding:12px 28px; border-radius:10px; border:none; background:#a8e063; color:#1a1a2e; font-size:1rem; font-weight:bold; cursor:pointer;">💾 Save score</button>
     <button id="restart-btn">Try again</button>
   </div>
-  <div id="ranking-overlay">
+  
+</div>
+<div id="ranking-overlay">
   <div class="ranking-box">
     <h3 style="color:#f0c040;text-align:center;margin-bottom:12px;">🏆 Top 10 · NumNum 4×4 (this device)</h3>
     <div id="ranking-list"></div>
   </div>
   <button id="ranking-close-btn">Close</button>
 </div>
-</div>
-
 <script>
 const ROWS = 4, COLS = 4;
 const MODE = 'numnum4x4';
@@ -619,16 +627,13 @@ document.getElementById('save-score-btn').addEventListener('click', function() {
 });
 
 document.getElementById('ranking-btn').addEventListener('click', function() {
-  const area = document.getElementById('ranking-area');
-  if (area.style.display === 'block') {
-    area.style.display = 'none';
-    this.textContent = '🏆 Leaderboard';
-    return;
-  }
   loadRanking();
-  area.style.display = 'block';
-  this.textContent = '🏆 Leaderboard';
+  document.getElementById('ranking-overlay').classList.add('show');
 });
+document.getElementById('ranking-close-btn').addEventListener('click', function() {
+  document.getElementById('ranking-overlay').classList.remove('show');
+});
+
 window.addEventListener('load', function() {
   safeGamePix(() => GamePix.loaded());
 });
