@@ -41,21 +41,18 @@
   }
 
   .back-button {
-    position: absolute; top: 20px; left: 20px;
-    padding: 8px 10px; font-size: 2em; font-weight: bold;
-    background-color: #1a1a2e; color: #CFF9FF;
-    border-radius: 12px; border: none; cursor: pointer;
-    transition: all 0.3s ease; z-index: 100;
-  }
+  position: absolute; top: 20px; right: 20px;
+  padding: 8px 16px; font-size: 1rem; font-weight: bold;
+  background-color: #1a1a2e; color: #CFF9FF;
+  border-radius: 12px; border: none; cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.3s ease; z-index: 100;
+}
   .back-button:hover { background-color: #1baf8f; color: #fff; }
   h1 { font-size: 2rem; margin-bottom: 6px; letter-spacing: 2px; color: #f0c040; }
   #player-id { font-size: 0.8rem; color: #666; margin-bottom: 10px; letter-spacing: 1px; }
   #score-area { margin-bottom: 14px; font-size: 1.1rem; color: #ccc; }
   #score-area span { color: #f0c040; font-weight: bold; font-size: 1.3rem; }
-
-  #fruit-legend { display: flex; gap: 12px; margin-bottom: 12px; font-size: 0.82rem; color: #aaa; }
-  .fruit-item { display: flex; align-items: center; gap: 4px; }
-  .fruit-badge { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1rem; }
 
   #queue-area { display: flex; gap: 10px; margin-bottom: 16px; align-items: flex-end; }
   .queue-label { font-size: 0.75rem; color: #888; margin-bottom: 4px; text-align: center; }
@@ -105,6 +102,20 @@
     font-weight: bold; cursor: pointer; display: none;
   }
   #pc-hint { margin-top: 12px; font-size: 0.8rem; color: #666; text-align: center; line-height: 1.6; }
+#ranking-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.75); align-items: center;
+  justify-content: center; flex-direction: column; gap: 16px; z-index: 150;
+}
+#ranking-overlay.show { display: flex; }
+#ranking-overlay .ranking-box {
+  background:#1a1a2e; padding:20px 24px; border-radius:14px;
+  width:90%; max-width:320px; max-height:70vh; overflow-y:auto;
+}
+#ranking-close-btn {
+  padding:10px 28px; border-radius:10px; border:none;
+  background:#2a2a4a; color:#f0c040; font-size:0.95rem; cursor:pointer;
+}
 
   #ranking-area { margin-top: 24px; width: 100%; max-width: 320px; }
   #ranking-area h3 { color: #f0c040; font-size: 1rem; margin-bottom: 10px; text-align: center; }
@@ -162,7 +173,7 @@
 <body>
 
 <div id="start-screen">
-  <button class="back-button" onclick="location.href='index.html'">←</button>
+  <button class="back-button" onclick="location.href='index.html'">Menu</button>
   <h1>NumNum</h1>
   <div style="font-size:2rem;">5×5</div>
   <p class="subtitle">Drop fruits to multiply numbers - 2x, 4x, 8x!</p>
@@ -177,18 +188,12 @@
   <button class="start-btn" onclick="startGame()">Start</button>
   <footer><p>© 2026 Han Soosoo. All rights reserved.</p></footer>
 </div>
+<button class="back-button" onclick="location.href='index.html'">Menu</button>
 
 <div id="game-wrapper">
-  <button class="back-button" onclick="location.href='index.html'">←</button>
   <h1>🍎 NumNum</h1>
   <div id="player-id"></div>
   <div id="score-area">Score: <span id="score">0</span></div>
-
-  <div id="fruit-legend">
-    <div class="fruit-item"><div class="fruit-badge">🍎</div><span>×2</span></div>
-    <div class="fruit-item"><div class="fruit-badge">🍒</div><span>×4</span></div>
-    <div class="fruit-item"><div class="fruit-badge">🍇</div><span>×8</span></div>
-  </div>
 
   <div id="queue-area">
     <div class="queue-slot">
@@ -211,10 +216,6 @@
   <div id="pc-hint">← → Select Column · Enter / Space Drop</div>
   <button id="ranking-btn" style="margin-top:14px; padding:10px 28px; border-radius:10px; border:none; background:#2a2a4a; color:#f0c040; font-size:0.95rem; cursor:pointer;">🏆 Leaderboard</button>
 
-  <div id="ranking-area" style="display:none;">
-    <h3>🏆 Top 10 · NumNum 5×5 (this device)</h3>
-    <div id="ranking-list"></div>
-  </div>
 </div>
 
 <div id="overlay">
@@ -224,6 +225,13 @@
     <button id="save-score-btn" style="padding:12px 28px; border-radius:10px; border:none; background:#a8e063; color:#1a1a2e; font-size:1rem; font-weight:bold; cursor:pointer;">💾 Save Score</button>
     <button id="restart-btn">Try again</button>
   </div>
+</div>
+<div id="ranking-overlay">
+  <div class="ranking-box">
+    <h3 style="color:#f0c040;text-align:center;margin-bottom:12px;">🏆 Top 10 · NumNum 4×4 (this device)</h3>
+    <div id="ranking-list"></div>
+  </div>
+  <button id="ranking-close-btn">Close</button>
 </div>
 
 <script>
@@ -604,15 +612,11 @@ document.getElementById('save-score-btn').addEventListener('click', function() {
 });
 
 document.getElementById('ranking-btn').addEventListener('click', function() {
-  const area = document.getElementById('ranking-area');
-  if (area.style.display === 'block') {
-    area.style.display = 'none';
-    this.textContent = '🏆 Leaderboard';
-    return;
-  }
   loadRanking();
-  area.style.display = 'block';
-  this.textContent = '🏆 Close Leaderboard';
+  document.getElementById('ranking-overlay').classList.add('show');
+});
+document.getElementById('ranking-close-btn').addEventListener('click', function() {
+  document.getElementById('ranking-overlay').classList.remove('show');
 });
 window.addEventListener('load', function() {
   safeGamePix(() => GamePix.loaded());
