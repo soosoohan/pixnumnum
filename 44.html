@@ -79,16 +79,24 @@
 
   #col-buttons { display: flex; gap: 4px; margin-bottom: 4px; }
   .col-btn {
-    width: 72px; height: 36px; border-radius: 8px; border: none;
-    background: #2a2a4a; color: #aaa; font-size: 1.2rem;
-    cursor: pointer; transition: background 0.2s;
+    width: 70px;
+    height: 70px;
+    border-radius: 8px;
+    border: none;
+    background: #2a2a4a;
+    color: #db74bc;
+    font-size: 1.8rem;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
   }
   .col-btn.selected {
-    background: #f0c040; color: #1a1a2e;
+    background: #b3933e;
+    color: #1a1a2e;
     transform: translateY(4px);
     box-shadow: 0 4px 12px rgba(240,192,64,0.5);
   }
-  .col-btn:hover:not(.selected) { background: #3a3a6a; color: #888; }
+  .col-btn:hover:not(.selected) { background: #3a3a6a; color: #db74bc; }
 
   /* ── 그리드: clamp → 고정 px ── */
   #grid {
