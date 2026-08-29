@@ -63,16 +63,18 @@
   #score-area span { color: #f0c040; font-weight: bold; font-size: 1.3rem; }
 
   #queue-area { display: flex; gap: 10px; margin-bottom: 16px; align-items: flex-end; }
-  .queue-label { font-size: 0.75rem; color: #888; margin-bottom: 4px; text-align: center; }
-  .queue-slot { display: flex; flex-direction: column; align-items: center; }
-  .queue-card {
-    width: 60px; height: 60px; border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.2rem; font-weight: bold;
-    background: #444; color: #888; transition: all 0.3s;
-  }
-  .queue-card.active { transform: scale(1.1); box-shadow: 0 0 12px rgba(240,192,64,0.6); }
-  .queue-card.fruit { font-size: 1.6rem; }
+.queue-label { font-size: 0.75rem; color: #888; margin-bottom: 4px; text-align: center; }
+.queue-slot { display: flex; flex-direction: column; align-items: center; }
+.queue-card {
+  width: 60px; height: 60px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: bold; transition: transform 0.2s;
+}
+.queue-card.number-card { font-size: 1.2rem; background: #3a3a3a; color: #ddd; }
+.queue-card.fruit { font-size: 1.6rem; background: #3a3a3a; color: #fff; }
+.queue-card.active.number-card { background: #555; color: #eee; }
+.queue-card.active.fruit { background: #555; color: #fff; }
+.queue-card.active { transform: scale(1.1); }
 
   #col-buttons { display: flex; gap: 4px; margin-bottom: 4px; }
     .col-btn {
@@ -415,20 +417,10 @@ function updateQueueUI() {
   for (let i = 0; i < QUEUE_SIZE; i++) {
     const el = document.getElementById(`q${i}`); if (!el) continue;
     const card = queue[i];
-    el.className = 'queue-card' + (i===0 ? ' active' : '');
-    if (!card) { el.textContent = ''; el.style.background = '#333'; return; }
-    if (isFruit(card)) {
-      el.classList.add('fruit');
-      el.textContent = card.fruit.emoji;
-      el.style.background = i===0 ? (FRUIT_BG[card.fruit.emoji] || '#555') : '#333';
-      el.style.color = '#fff';
-      el.style.fontSize = '1.8rem';
-    } else {
-      el.textContent = card.value;
-      el.style.background = i===0 ? '#555' : '#333';
-      el.style.color = i===0 ? '#eee' : '#777';
-      el.style.fontSize = '1.2rem';
-    }
+    const type = isFruit(card) ? 'fruit' : 'number-card';
+    el.className = 'queue-card' + (i===0 ? ' active' : '') + ' ' + type;
+    if (!card) { el.textContent = ''; continue; }
+    el.textContent = isFruit(card) ? card.fruit.emoji : card.value;
   }
 }
 
