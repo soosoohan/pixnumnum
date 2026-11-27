@@ -41,8 +41,25 @@
     overflow-x: hidden;
   }
 
-  header { text-align: center; margin-bottom: 6px; }
-  h1 { font-size: 1.5rem; color: #f0c040; letter-spacing: 2px; }
+  header {
+  text-align: center;
+  margin: 0 auto 20px;
+  max-width: 680px;
+}
+
+ .banner-title {
+    margin: 0;
+    font-size: 0;
+}
+
+ .banner-title img {
+    display: block;
+    width: 100%;
+    max-width: 680px;
+    height: auto;
+    margin: 0 auto 20px;
+    border-radius: 10px;
+}
   .tagline { font-size: 0.75rem; color: #FFD6BA; margin-top: 2px; }
 
   .selection-row {
@@ -95,10 +112,11 @@
 <body>
 
 <div id="game-wrapper">
-  <header>
-    <h1>NumNum</h1>
-    <div class="tagline">Drop and merge number cards.</div>
-  </header>
+  
+<header>
+<h1 class="banner-title"><img src="bannerpink.jpeg" alt="NumNum"></h1>
+<div class="tagline">Drop and merge number cards.</div>
+</header>
 
   <div class="selection-row">
     <button class="selection-button" onclick="location.href='44.html'">4×4</button>
