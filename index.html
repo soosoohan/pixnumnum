@@ -46,15 +46,24 @@
   .tagline { font-size: 0.75rem; color: #FFD6BA; margin-top: 2px; }
 
   .selection-row {
-    display: flex; flex-direction: column; gap: 8px;
+    display: flex; flex-direction: in-line; gap: 8px;
     width: 100%; margin-bottom: 10px;
   }
   .selection-button {
-    width: 100%; padding: 10px; font-size: 0.95rem; font-weight: bold;
-    border: none; border-radius: 10px;
-    background: linear-gradient(145deg, #FFD6BA, #FFCAA6);
-    color: #7A2E2E; cursor: pointer; text-align: center;
-  }
+  flex: 1;
+  max-width: 300px;
+  padding: 8px 8px;
+  font-size: 1.05em;
+  font-weight: bold;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #FFD6BA, #FFCAA6);
+  color: #1a1a2e;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  text-align: center;
+}
   .selection-button:hover { background: linear-gradient(145deg, #FF9494, #FF7373); color: #fff; }
 
   .info-card {
@@ -92,9 +101,9 @@
   </header>
 
   <div class="selection-row">
-    <button class="selection-button" onclick="location.href='44.html'">NumNum 4×4</button>
-    <button class="selection-button" onclick="location.href='55.html'">NumNum 5×5</button>
-    <button class="selection-button" onclick="location.href='66.html'">NumNum 6×6</button>
+    <button class="selection-button" onclick="location.href='44.html'">4×4</button>
+    <button class="selection-button" onclick="location.href='55.html'">5×5</button>
+    <button class="selection-button" onclick="location.href='66.html'">6×6</button>
   </div>
 
   <div class="info-card">
